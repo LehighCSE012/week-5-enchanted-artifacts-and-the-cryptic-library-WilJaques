@@ -77,7 +77,7 @@ def display_inventory(inventory):
         for index, item in enumerate(inventory, start=1):  # Start counting from 1
             print(f"{index}. {item}")
 
-def enter_dungeon(player_stats, inventory, dungeon_rooms, clues, artficacts):
+def enter_dungeon(player_stats, inventory, dungeon_rooms, clues, artifacts):
     """ Enter Dungeon """
     for rooms in dungeon_rooms:
         room_description, item, challenge_type, challenge_outcome = rooms
@@ -107,8 +107,7 @@ def enter_dungeon(player_stats, inventory, dungeon_rooms, clues, artficacts):
 
         elif challenge_type == "trap":
             print("You see a potential trap!")
-            disarm = input("Do you want to disarm or bypass the trap?")
-            if disarm == "disarm":
+            if input("Do you want to disarm or bypass the trap?") == "disarm":
                 if random.choice([True, False]):
                     print(challenge_outcome[0])
                     player_stats["health"] += challenge_outcome[2] * -1
@@ -118,9 +117,13 @@ def enter_dungeon(player_stats, inventory, dungeon_rooms, clues, artficacts):
         elif challenge_type == "none":
             print("There doesn't seem to be a challenge in this room. You move on.")
         elif challenge_type == "library":
-            clues =  ["The treasure is hidden where the dragon sleeps.",
-                       "The key lies with the gnome.", "Beware the shadows.",
-                         "The amulet unlocks the final door.", "This is not a clue."]
+            print(room_description)
+            clues.add("The treasure is hidden where the dragon sleeps.")
+            clues.add("The key lies with the gnome.")
+            clues.add("Beware the shadows.")
+            clues.add("The amulet unlocks the final door.")
+            clues.add("This is not a clue.")
+
             #this is not a clue so I am removing it
             clues.remove("This is not a clue.")
             rand_clues = random.sample(clues, 2)
@@ -159,7 +162,8 @@ def discover_artifact(player_stats, artifacts, artifact_name):
             del artifacts[artifact_name]
         else:
             print("You found nothing of interest.")
-
+    else:
+        print("You found nothing of interest.")
     return player_stats, artifacts
 
 def find_clue(clues, new_clue):
