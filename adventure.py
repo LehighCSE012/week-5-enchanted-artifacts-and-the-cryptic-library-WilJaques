@@ -95,7 +95,8 @@ def enter_dungeon(player_stats, inventory, dungeon_rooms, clues, artifacts):
             inventory = acquire_item(inventory, item)
         if challenge_type == "puzzle":
             print("You encounter a puzzle!")
-            if input("Do you want to skip or solve the puzzle?") == "skip":
+            skip = input("Do you want to skip or solve the puzzle?")
+            if skip == "skip":
                 print("You skipped the puzzle.")
             else:
                 if random.choice([True, False]):
@@ -107,7 +108,8 @@ def enter_dungeon(player_stats, inventory, dungeon_rooms, clues, artifacts):
 
         elif challenge_type == "trap":
             print("You see a potential trap!")
-            if input("Do you want to disarm or bypass the trap?") == "disarm":
+            disarm = input("Do you want to disarm or bypass the trap?")
+            if  disarm == "disarm":
                 if random.choice([True, False]):
                     print(challenge_outcome[0])
                     player_stats["health"] += challenge_outcome[2] * -1
