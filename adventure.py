@@ -2,7 +2,6 @@
 """ adventure game """
 from hmac import new
 import random
-import adventure
 
 def display_player_status(player_stats):
     """ Display Player Status """
@@ -130,7 +129,8 @@ def enter_dungeon(player_stats, inventory, dungeon_rooms, clues, artifacts):
             clues.update(find_clue(clues, rand_clues[0]))
             clues.update(find_clue(clues, rand_clues[1]))
             if "staff_of_wisdom" in artifacts:
-                print(artifacts["staff_of_wisdom"]["description"])
+                print("The Staff of Wisdom hums in your hand")
+                print("You feel you could now bypass a puzzle")
                 room_name = input("Enter the room name:")
                 for i, room in enumerate(dungeon_rooms):
                     if room[0] == room_name:
@@ -142,7 +142,7 @@ def enter_dungeon(player_stats, inventory, dungeon_rooms, clues, artifacts):
             print("You are barely alive!")
 
         display_inventory(inventory)
-    return player_stats, inventory
+    return player_stats, inventory, clues
 
 def discover_artifact(player_stats, artifacts, artifact_name):
     """ Discover Artifact """
@@ -231,7 +231,8 @@ def main():
         print("Players Health and Attack:", player_stats.values())
     check_for_treasure(treasure_obtained_in_combat) # Or has_treasure, depending on logic
 
-    player_stats, inventory = enter_dungeon(player_stats, inventory, dungeon_rooms, clues, artifacts)
+    player_stats, inventory, clues = enter_dungeon(player_stats, inventory,
+                                             dungeon_rooms, clues, artifacts)
     print(player_stats["health"])
 
 if __name__ == "__main__":
