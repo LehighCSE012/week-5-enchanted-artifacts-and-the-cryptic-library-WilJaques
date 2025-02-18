@@ -3,9 +3,6 @@
 # Your code goes here
 """ adventure game """
 import random
-from re import A
-
-from matplotlib.pylab import rand
 
 def display_player_status(player_stats):
     """ Display Player Status """
@@ -54,7 +51,7 @@ def combat_encounter(player_stats, monster_health, has_treasure):
     if player_stats["health"] <= 0:
         print("Game Over!")
         return False
-    elif monster_health <= 0:
+    if monster_health <= 0:
         print("You defeated the monster!")
     return has_treasure # boolean
 
@@ -80,7 +77,7 @@ def display_inventory(inventory):
         for index, item in enumerate(inventory, start=1):  # Start counting from 1
             print(f"{index}. {item}")
 
-def enter_dungeon(player_stats, inventory, dungeon_rooms):
+def enter_dungeon(player_stats, inventory, dungeon_rooms, clues):
     """ Enter Dungeon """
     for rooms in dungeon_rooms:
         room_description, item, challenge_type, challenge_outcome = rooms
@@ -98,8 +95,7 @@ def enter_dungeon(player_stats, inventory, dungeon_rooms):
             inventory = acquire_item(inventory, item)
         if challenge_type == "puzzle":
             print("You encounter a puzzle!")
-            skip = input("Do you want to skip or solve the puzzle?")
-            if skip == "skip":
+            if input("Do you want to skip or solve the puzzle?") == "skip":
                 print("You skipped the puzzle.")
             else:
                 if random.choice([True, False]):
@@ -132,9 +128,9 @@ def enter_dungeon(player_stats, inventory, dungeon_rooms):
             find_clue(clues, rand_clues[1])
             if "staff_of_wisdom" in inventory:
                 print("You can skip  a puzzle in another room.")
-                room_Name = input("Enter the room name:")
+                room_name = input("Enter the room name:")
                 for i, room in enumerate(dungeon_rooms):
-                    if room[0] == room_Name:
+                    if room[0] == room_name:
                         outcome = dungeon_rooms[i][3][2]
                         dungeon_rooms.remove(room)  # Replace tuple
                         dungeon_rooms.append("Bypass", None, "none", (None, None, outcome))
@@ -151,11 +147,13 @@ def discover_artifact(player_stats, artifacts, artifact_name):
         print(artifacts[artifact_name]["description"])
         if artifacts[artifact_name]["effect"] == "increases health":
             #I am updating the health value in the dictionary
-            player_stats.update({"health": artifacts[artifact_name]["power"] + player_stats["health"]})
+            player_stats.update({"health": artifacts[artifact_name]["power"]
+                                 + player_stats["health"]})
             print("Your health has increased!")
         elif artifacts[artifact_name]["effect"] == "enhances attack":
             #I am updating the power value in the dictionary
-            player_stats.update({"attack": artifacts[artifact_name]["power"] + player_stats["attack"]})
+            player_stats.update({"attack": artifacts[artifact_name]["power"]
+                                 + player_stats["attack"]})
             print("Your attack has increased!")
         del artifacts[artifact_name]
 
@@ -213,14 +211,14 @@ def main():
     # I am then using this to remove last element and test the pop function
     dungeon_rooms.pop()
 
-    dungeon_rooms.append(("A vast library filled with ancient, cryptic texts.", None, "library", None))
-
-
-    has_treasure = random.choice([True, False]) # Randomly assign treasure
+    dungeon_rooms.append(("A vast library filled with ancient, cryptic texts.",
+                           None, "library", None))
 
     player_stats["health"] = handle_path_choice(player_stats)
 
-    treasure_obtained_in_combat = combat_encounter(player_stats, monster_health, has_treasure)
+    treasure_obtained_in_combat = combat_encounter(player_stats, monster_health,
+                                 random.choice([True, False]) # Randomly assign treasure
+)
 
     if random.choice([True, False]):
         discover_artifact(player_stats, artifacts, "amulet_of_vitality")
@@ -228,7 +226,7 @@ def main():
         print("Players Health and Attack:", player_stats.values())
     check_for_treasure(treasure_obtained_in_combat) # Or has_treasure, depending on logic
 
-    player_stats, inventory = enter_dungeon(player_stats, inventory, dungeon_rooms)
+    player_stats, inventory = enter_dungeon(player_stats, inventory, dungeon_rooms, clues)
     print(player_stats["health"])
 
 if __name__ == "__main__":
