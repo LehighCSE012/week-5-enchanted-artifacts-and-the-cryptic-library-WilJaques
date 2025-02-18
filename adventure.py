@@ -77,7 +77,7 @@ def display_inventory(inventory):
         for index, item in enumerate(inventory, start=1):  # Start counting from 1
             print(f"{index}. {item}")
 
-def enter_dungeon(player_stats, inventory, dungeon_rooms, clues):
+def enter_dungeon(player_stats, inventory, dungeon_rooms, clues, artficacts):
     """ Enter Dungeon """
     for rooms in dungeon_rooms:
         room_description, item, challenge_type, challenge_outcome = rooms
@@ -150,12 +150,15 @@ def discover_artifact(player_stats, artifacts, artifact_name):
             player_stats.update({"health": artifacts[artifact_name]["power"]
                                  + player_stats["health"]})
             print("Your health has increased!")
+            del artifacts[artifact_name]
         elif artifacts[artifact_name]["effect"] == "enhances attack":
             #I am updating the power value in the dictionary
             player_stats.update({"attack": artifacts[artifact_name]["power"]
                                  + player_stats["attack"]})
             print("Your attack has increased!")
-        del artifacts[artifact_name]
+            del artifacts[artifact_name]
+        else:
+            print("You found nothing of interest.")
 
     return player_stats, artifacts
 
@@ -174,7 +177,6 @@ def main():
     """ Main Function """
     player_health = 100
     monster_health = 70 # Example hardcoded value
-    has_treasure = False
     inventory = []
     clues = set()
 
@@ -226,7 +228,7 @@ def main():
         print("Players Health and Attack:", player_stats.values())
     check_for_treasure(treasure_obtained_in_combat) # Or has_treasure, depending on logic
 
-    player_stats, inventory = enter_dungeon(player_stats, inventory, dungeon_rooms, clues)
+    player_stats, inventory = enter_dungeon(player_stats, inventory, dungeon_rooms, clues, artifacts)
     print(player_stats["health"])
 
 if __name__ == "__main__":
