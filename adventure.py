@@ -128,7 +128,7 @@ def enter_dungeon(player_stats, inventory, dungeon_rooms, clues, artifacts):
             rand_clues = random.sample(new_clue, 2)
             clues.update(find_clue(clues, rand_clues[0]))
             clues.update(find_clue(clues, rand_clues[1]))
-            if "staff_of_wisdom" in artifacts:
+            if "staff_of_wisdom" in inventory:
                 print("The Staff of Wisdom hums in your hand")
                 print("You feel you could now bypass a puzzle")
                 room_name = input("Enter the room name:")
