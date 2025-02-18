@@ -1,9 +1,8 @@
 # Your code goes here
-
-# Your code goes here
 """ adventure game """
 from hmac import new
 import random
+import adventure
 
 def display_player_status(player_stats):
     """ Display Player Status """
@@ -87,7 +86,7 @@ def enter_dungeon(player_stats, inventory, dungeon_rooms, clues, artifacts):
         try:
             rooms[0] = "trying to change the tuple"
         except TypeError as e:
-            print("Tuples are immutable Error:", e)
+            print("Error: Cannot modify room tuples - they are immutable.")
         if room_description == "bypass":
             print("You bypass the challenge.")
             player_stats["health"] += challenge_outcome[2]
@@ -129,7 +128,7 @@ def enter_dungeon(player_stats, inventory, dungeon_rooms, clues, artifacts):
                         "This is not a clue."]
             rand_clues = random.sample(new_clue, 2)
             clues.update(find_clue(clues, rand_clues[0]))
-            clues = find_clue(clues, rand_clues[1])
+            clues.update(find_clue(clues, rand_clues[1]))
             if "staff_of_wisdom" in artifacts:
                 print(artifacts["staff_of_wisdom"]["description"])
                 room_name = input("Enter the room name:")
@@ -227,7 +226,7 @@ def main():
                                  random.choice([True, False]) # Randomly assign treasure
 )
     if random.choice([True, False]):
-        discover_artifact(player_stats, artifacts, "amulet_of_vitality")
+        discover_artifact(player_stats, artifacts, random.choice(list(artifacts.keys())))
         #Getting the values of player status because the values are the health and attack values
         print("Players Health and Attack:", player_stats.values())
     check_for_treasure(treasure_obtained_in_combat) # Or has_treasure, depending on logic
