@@ -225,7 +225,8 @@ def main():
                                  random.choice([True, False]) # Randomly assign treasure
 )
     if random.choice([True, False]):
-        player_stats, artifacts = discover_artifact(player_stats, artifacts, random.choice(list(artifacts.keys())))
+        player_stats, artifacts = discover_artifact(player_stats,
+                                    artifacts, random.choice(list(artifacts.keys())))
         #Getting the values of player status because the values are the health and attack values
         print("Players Health and Attack:", player_stats.values())
     check_for_treasure(treasure_obtained_in_combat) # Or has_treasure, depending on logic
