@@ -1,6 +1,5 @@
 # Your code goes here
 """ adventure game """
-from hmac import new
 import random
 
 def display_player_status(player_stats):
@@ -84,7 +83,7 @@ def enter_dungeon(player_stats, inventory, dungeon_rooms, clues, artifacts):
         print(room_description)
         try:
             rooms[0] = "trying to change the tuple"
-        except TypeError as e:
+        except TypeError:
             print("Error: Cannot modify room tuples - they are immutable.")
         if room_description == "bypass":
             print("You bypass the challenge.")
@@ -129,7 +128,7 @@ def enter_dungeon(player_stats, inventory, dungeon_rooms, clues, artifacts):
             clues.update(find_clue(clues, rand_clues[0]))
             clues.update(find_clue(clues, rand_clues[1]))
             if "staff_of_wisdom" in inventory:
-                print("The Staff of Wisdom hums in your hand")
+                print(artifacts["staff_of_wisdom"]["description"])
                 print("You feel you could now bypass a puzzle")
                 room_name = input("Enter the room name:")
                 for i, room in enumerate(dungeon_rooms):
@@ -196,7 +195,7 @@ def main():
             "effect": "enhances attack"
         },
         "staff_of_wisdom": {
-            "description": "A staff imbued with ancient wisdom.",
+            "description": "The Staff of Wisdom hums in your hand",
             "power": 5,
             "effect": "solves puzzles"
     }
@@ -226,7 +225,7 @@ def main():
                                  random.choice([True, False]) # Randomly assign treasure
 )
     if random.choice([True, False]):
-        discover_artifact(player_stats, artifacts, random.choice(list(artifacts.keys())))
+        player_stats, artifacts = discover_artifact(player_stats, artifacts, random.choice(list(artifacts.keys())))
         #Getting the values of player status because the values are the health and attack values
         print("Players Health and Attack:", player_stats.values())
     check_for_treasure(treasure_obtained_in_combat) # Or has_treasure, depending on logic
