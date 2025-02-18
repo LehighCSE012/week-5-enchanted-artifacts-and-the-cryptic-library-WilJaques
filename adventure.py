@@ -128,7 +128,8 @@ def enter_dungeon(player_stats, inventory, dungeon_rooms, clues, artifacts):
 
             #this is not a clue so I am removing it
             clues.remove("This is not a clue.")
-            rand_clues = random.sample(clues, 2)
+            # sample does not work on sets so I am converting it to a list
+            rand_clues = random.sample(list(clues), 2)
             find_clue(clues, rand_clues[0])
             find_clue(clues, rand_clues[1])
             if "staff_of_wisdom" in inventory:
