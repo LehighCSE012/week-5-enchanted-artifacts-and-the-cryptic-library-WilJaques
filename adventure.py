@@ -80,7 +80,8 @@ def display_inventory(inventory):
 def enter_dungeon(player_stats, inventory, dungeon_rooms, clues, artifacts):
     """ Enter Dungeon """
     for rooms in dungeon_rooms:
-        room_description, item, challenge_type, challenge_outcome = rooms
+        # the * allows for there to be No challege outcome
+        room_description, item, challenge_type, *challenge_outcome = rooms
         print(room_description)
         try:
             rooms[0] = "trying to change the tuple"
@@ -119,7 +120,7 @@ def enter_dungeon(player_stats, inventory, dungeon_rooms, clues, artifacts):
         elif challenge_type == "none":
             print("There doesn't seem to be a challenge in this room. You move on.")
         elif challenge_type == "library":
-            print(room_description)
+            print("You enter the Cryptic Library.")
             clues.add("The treasure is hidden where the dragon sleeps.")
             clues.add("The key lies with the gnome.")
             clues.add("Beware the shadows.")
@@ -130,10 +131,10 @@ def enter_dungeon(player_stats, inventory, dungeon_rooms, clues, artifacts):
             clues.remove("This is not a clue.")
             # sample does not work on sets so I am converting it to a list
             rand_clues = random.sample(list(clues), 2)
-            find_clue(clues, rand_clues[0])
-            find_clue(clues, rand_clues[1])
-            if "staff_of_wisdom" in inventory:
-                print("You can skip  a puzzle in another room.")
+            clues = find_clue(clues, rand_clues[0])
+            clues = find_clue(clues, rand_clues[1])
+            if "staff_of_wisdom" in artifacts:
+                print(artifacts["staff_of_wisdom"]["description"])
                 room_name = input("Enter the room name:")
                 for i, room in enumerate(dungeon_rooms):
                     if room[0] == room_name:
@@ -228,7 +229,6 @@ def main():
     treasure_obtained_in_combat = combat_encounter(player_stats, monster_health,
                                  random.choice([True, False]) # Randomly assign treasure
 )
-
     if random.choice([True, False]):
         discover_artifact(player_stats, artifacts, "amulet_of_vitality")
         #Getting the values of player status because the values are the health and attack values
