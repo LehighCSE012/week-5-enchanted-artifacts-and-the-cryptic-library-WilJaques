@@ -2,6 +2,7 @@
 
 # Your code goes here
 """ adventure game """
+from hmac import new
 import random
 
 def display_player_status(player_stats):
@@ -121,17 +122,13 @@ def enter_dungeon(player_stats, inventory, dungeon_rooms, clues, artifacts):
             print("There doesn't seem to be a challenge in this room. You move on.")
         elif challenge_type == "library":
             print("You enter the Cryptic Library.")
-            clues.add("The treasure is hidden where the dragon sleeps.")
-            clues.add("The key lies with the gnome.")
-            clues.add("Beware the shadows.")
-            clues.add("The amulet unlocks the final door.")
-            clues.add("This is not a clue.")
-
-            #this is not a clue so I am removing it
-            clues.remove("This is not a clue.")
-            # sample does not work on sets so I am converting it to a list
-            rand_clues = random.sample(list(clues), 2)
-            clues = find_clue(clues, rand_clues[0])
+            new_clue = ["The treasure is hidden where the dragon sleeps.",
+                        "The key lies with the gnome.",
+                        "Beware the shadows.",
+                        "The amulet unlocks the final door.",
+                        "This is not a clue."]
+            rand_clues = random.sample(new_clue, 2)
+            clues.update(find_clue(clues, rand_clues[0]))
             clues = find_clue(clues, rand_clues[1])
             if "staff_of_wisdom" in artifacts:
                 print(artifacts["staff_of_wisdom"]["description"])
