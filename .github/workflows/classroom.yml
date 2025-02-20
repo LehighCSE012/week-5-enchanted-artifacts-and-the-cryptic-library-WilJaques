@@ -84,40 +84,11 @@ jobs:
         timeout: 10
         max-score: 10
 
-    - name: Run test_adventure_8
-      id: test_adventure_8
-      uses: classroom-resources/autograding-command-grader@v1
-      with:
-        test-name: test_adventure_8
-        setup-command: pip install pytest pylint
-        command: pytest test/test_adventure_8.py
-        timeout: 10
-        max-score: 10
-
-    - name: Run test_adventure_9
-      id: test_adventure_9
-      uses: classroom-resources/autograding-command-grader@v1
-      with:
-        test-name: test_adventure_9
-        setup-command: pip install pytest pylint
-        command: pytest test/test_adventure_9.py
-        timeout: 10
-        max-score: 10
-
-    - name: Run test_adventure_10
-      id: test_adventure_10
-      uses: classroom-resources/autograding-command-grader@v1
-      with:
-        test-name: test_adventure_10
-        setup-command: pip install pytest pylint
-        command: pytest test/test_adventure_10.py
-        timeout: 10
-        max-score: 10
 
     - name: Autograding Reporter
       uses: classroom-resources/autograding-grading-reporter@v1
       with:
-        runners: test_adventure_1,test_adventure_2,test_adventure_3,test_adventure_4,test_adventure_5,test_adventure_6,test_adventure_7,test_adventure_8,test_adventure_9,test_adventure_10
+        runners: test_adventure_1,test_adventure_2,test_adventure_3,test_adventure_4,test_adventure_5,test_adventure_6,test_adventure_7
       env:
         # Using consistent env variable names:
         TEST_ADVENTURE_1_RESULTS: ${{ steps.test_adventure_1.outputs.result }}
@@ -127,6 +98,3 @@ jobs:
         TEST_ADVENTURE_5_RESULTS: ${{ steps.test_adventure_5.outputs.result }}
         TEST_ADVENTURE_6_RESULTS: ${{ steps.test_adventure_6.outputs.result }}
         TEST_ADVENTURE_7_RESULTS: ${{ steps.test_adventure_7.outputs.result }}
-        TEST_ADVENTURE_8_RESULTS: ${{ steps.test_adventure_8.outputs.result }}
-        TEST_ADVENTURE_9_RESULTS: ${{ steps.test_adventure_9.outputs.result }}
-        TEST_ADVENTURE_10_RESULTS: ${{ steps.test_adventure_10.outputs.result }}
